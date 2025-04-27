@@ -1,0 +1,13 @@
+com/seraphim/loyverse/config/AppConfig.class
+com/seraphim/loyverse/service/ReceiptService.class
+com/seraphim/loyverse/model/Receipt.class
+com/seraphim/loyverse/LoyverseTransferApplication.class
+com/seraphim/loyverse/config/LoyverseProperties$Destination.class
+com/seraphim/loyverse/model/Receipt$Payment.class
+com/seraphim/loyverse/model/Receipt$LineItem$LineDiscount.class
+com/seraphim/loyverse/config/LoyverseProperties$Api.class
+com/seraphim/loyverse/config/LoyverseProperties$Source.class
+com/seraphim/loyverse/Main.class
+com/seraphim/loyverse/model/ReceiptResponse.class
+com/seraphim/loyverse/config/LoyverseProperties.class
+com/seraphim/loyverse/model/Receipt$LineItem.class

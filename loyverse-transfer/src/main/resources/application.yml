@@ -1,0 +1,7 @@
+loyverse:
+  source:
+    token: fbce5ff1515849e18edf7173a80f4aca
+  destination:
+    token: 91c8227ff3434ac5aae130683e048aa5
+  api:
+    url: https://api.loyverse.com/v1.0
