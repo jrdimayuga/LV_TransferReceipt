@@ -2,6 +2,7 @@ loyverse:
   source:
     token: fbce5ff1515849e18edf7173a80f4aca
   destination:
-    token: 91c8227ff3434ac5aae130683e048aa5
+    # token: 30082795f6f049c2a6cd40ac8fb12255 #test
+    token: 91c8227ff3434ac5aae130683e048aa5 #report
   api:
     url: https://api.loyverse.com/v1.0

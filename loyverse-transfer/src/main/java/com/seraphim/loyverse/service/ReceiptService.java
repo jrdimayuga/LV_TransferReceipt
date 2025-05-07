@@ -3,6 +3,7 @@ package com.seraphim.loyverse.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seraphim.loyverse.model.Receipt;
 import com.seraphim.loyverse.model.ReceiptResponse;
+import com.seraphim.loyverse.util.ItemVariantMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,15 +21,18 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ReceiptService {
 
-    //To Update Daily Before Running
-    private String dateStartToTransfer = "2025-04-27";
-    private String dateEndToTransfer = "2025-04-27";
+    //START: To Update Daily Before Running
+    private String dateStartToTransfer = "2025-05-07";
+    private String dateEndToTransfer = "2025-05-07";
     private String storeIdTarget = "9de98d8f-ff63-4a95-ac87-6851de6e5d7c";
     private String employeeIdTarget = "b306d937-b39a-4f2f-88ca-3f8222c5f008";
     private String posDeviceIdTarget = "b3212aed-e4ae-428f-8e1b-fa560bd1beec";
     private String seniorDiscount = "d685ecfd-4113-4713-b3d4-f4dec06dbb8f";
     private String paymentTypeCash = "d8d627f6-0c9e-4bf9-8738-b52e4d63abb7";
-    private int skipReceiptCount = 2;
+    private int skipReceiptCount = 2; //skip every x receipt count
+    private double skipHigherAmount = 500;
+    private double includeLowerAmount = 50;
+    //END: To Update Daily Before Running
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
@@ -105,10 +109,16 @@ public class ReceiptService {
                 counter--;
                 continue;
             }
-            if (counter == skipReceiptCount || receipt.getTotalMoney() > 1000) {
-                log.info("Skipping receipt: {}", receipt.getReceiptNumber());
-                counter = 0;
-                continue;
+            if (counter == skipReceiptCount || receipt.getTotalMoney() > skipHigherAmount) {
+                //dont skip if lower than amount
+                if (counter == skipReceiptCount && receipt.getTotalMoney() < includeLowerAmount) {
+                    log.info("Including receipt: {} instead of skip due to lower amount.", receipt.getReceiptNumber());
+                    counter--; // bring back counter to previous value
+                } else {
+                    log.info("Skipping receipt: {}", receipt.getReceiptNumber());
+                    counter = 0; // reset count
+                    continue;
+                }
             }
             try {
                 newReceipt = new Receipt();
@@ -171,13 +181,16 @@ public class ReceiptService {
     }
 
     private String getItemVariantIdByItemName(String itemName) {
-        Map itemsMap = new HashMap();
-        itemsMap.put("17 Spicy Mango Dip (RMRS)", "7805ae58-3086-4973-b7df-0205c2681d62");
+        Map itemsMap = ItemVariantMapper.extractItemVariantMapFromResources();
+        // itemsMap.put("17 Spicy Mango Dip (RMRS)", "7805ae58-3086-4973-b7df-0205c2681d62");
 
         if(itemsMap != null && itemsMap.get(itemName) != null) {
-            return (String) itemsMap.get(itemName);
+            List<String> variantIds = (List<String>) itemsMap.get(itemName);
+            if (variantIds != null && variantIds.size() > 0) {
+                return variantIds.getFirst();
+            }
         }
 
-        return "7805ae58-3086-4973-b7df-0205c2681d62"; // default to 17 Spicy Mango Dip (RMRS)
+        return "7805ae58-3086-4973-b7df-0205c2681d62"; // default to 17 Spicy Mango Dip (RMRS) from LV Report App
     }
 }
