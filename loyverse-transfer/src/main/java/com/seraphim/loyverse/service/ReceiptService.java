@@ -89,8 +89,8 @@ public class ReceiptService {
     public void autoProcessTodayReceipts() {
 
         // adjust date value as needed
-        LocalDate today = LocalDate.of(2025, Month.MAY, 7);
-//        LocalDate today = LocalDate.now(ZoneId.of(timezone));
+//        LocalDate today = LocalDate.of(2025, Month.MAY, 7);
+        LocalDate today = LocalDate.now(ZoneId.of(timezone));
         transferReceipts(today);
         log.info("Sending Notification..");
         emailService.sendNotification(
