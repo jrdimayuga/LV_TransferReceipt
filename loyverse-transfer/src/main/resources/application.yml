@@ -6,3 +6,19 @@ loyverse:
     token: 91c8227ff3434ac5aae130683e048aa5 #report
   api:
     url: https://api.loyverse.com/v1.0
+
+receipt:
+  schedule:
+    cron: "0 07 00 * * *"
+    timezone: "Asia/Manila"
+
+
+spring:
+  mail:
+    host: in-v3.mailjet.com
+    port: 587
+    username: fcb86df797e1e73915425917d8938f80
+    password: 87416bfc529fb9b55df1bc28701a6181
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true

@@ -5,7 +5,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
+@EnableScheduling
 @SpringBootApplication
 public class LoyverseTransferApplication {
 
@@ -13,10 +15,10 @@ public class LoyverseTransferApplication {
         SpringApplication.run(LoyverseTransferApplication.class, args);
     }
 
-    @Bean
-    public CommandLineRunner run(ReceiptService receiptService) {
-        return args -> {
-            receiptService.transferReceipts();
-        };
-    }
+//    @Bean
+//    public CommandLineRunner run(ReceiptService receiptService) {
+//        return args -> {
+//            receiptService.transferReceipts();
+//        };
+//    }
 }
